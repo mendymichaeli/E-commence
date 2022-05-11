@@ -1,0 +1,15 @@
+<div class="top d-flex justify-content-between">
+    <div class="m-1 mt-3 ">
+        <p>Phone: 054000000</p>
+        <p>Email: shoppingOnline@gmail.com</p>
+        <p *ngIf="this.usersService.userId>0"> userId : {{this.usersService.userId}}</p>
+    </div>
+    <div class="m-1 "><img src="https://logopond.com/logos/bef601286cfe9b6f5a967b847469975f.png" alt="my market"></div>
+   
+    <div class="m-1 p-3 ">
+        
+        <i *ngIf="this.usersService.userLogged" class="large material-icons m-2" (click)="this.logout()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="LogOut" routerLink="/" alt="LogOut">power_settings_new</i>
+    </div>
+    <div class="p-3 m-3" (click)="homeBtn()" ><i class="material-icons btn-large">home</i></div>
+</div>
+

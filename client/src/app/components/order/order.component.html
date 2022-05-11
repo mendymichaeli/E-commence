@@ -1,0 +1,124 @@
+<div class="m-1 row" *ngIf="this.usersService.userId>0">
+    <!-- cart -->
+    <div class="col-5">
+        <app-cart ></app-cart>   
+    </div>
+    <!-- order form -->
+    <div class="col offset-1" >
+        <div  class="col-8" >
+            <h4>shipping details</h4>
+            <hr>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="City" (dblclick)="fillUpByDblclick('city')" [(ngModel)]="this.order.city"> 
+                <!--   ---------an option to select from close list--------
+                   <select class="form-select" (dblclick)="fillUpByDblclick('city')" [(ngModel)]="this.order.city">
+                    <option value="0">Choose city</option>
+                    <option *ngFor="let city of this.cities" value="{{city.name}}">{{city.name}}</option>
+                </select> -->
+                <small *ngIf="validationService.isError.orderCity != ''" class="alert text-danger">{{validationService.isError.orderCity}}</small>
+            </div>
+            <div class="mb-3 ">
+                <input type="text" class="form-control" placeholder="Street" (dblclick)="fillUpByDblclick('street')" [(ngModel)]="this.order.street">    
+                <small *ngIf="validationService.isError.orderStreet != ''" class="alert text-danger">{{validationService.isError.orderStreet}}</small>
+            </div> 
+            <div class=" mb-3">
+                <input id="dateOfBirth" class="form-control calendar" (change)="this.checkDeliveryDate(this.order.deliveryDate)" type="date" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="this.order.deliveryDate"> 
+                <small *ngIf="validationService.isError.deliveryDateOrder != ''" class="alert text-danger">{{validationService.isError.deliveryDateOrder}}</small>
+                <small *ngIf="validationService.deliveryDate==true" class="alert text-danger">{{validationService.isError.deliveryDate}}</small>
+                
+            </div> 
+            <h4>Credit Card</h4>
+            <hr>
+            <div class="mb-1">
+                <input type="text" class="form-control" [(ngModel)]="this.order.creditFourNumer">
+                <small *ngIf="validationService.isError.creditFourNumer != ''" class="alert text-danger">{{validationService.isError.creditFourNumer}}</small>
+            </div>
+            <hr>
+            <button type="button" class="btn btn-outline-primary m-2" (click)="open(content)">ORDER</button>
+
+            <small *ngIf="validationService.isError.cartId != ''" class="alert text-danger">{{validationService.isError.cartId}}</small>
+            <small *ngIf="validationService.isError.userId != ''" class="alert text-danger">{{validationService.isError.userId}}</small>
+            <small *ngIf="validationService.isError.totalPrice != ''" class="alert text-danger">{{validationService.isError.totalPrice}}</small>
+            
+            
+        </div> 
+    </div> 
+</div>
+<!-- ----------------CONFIMATION MODAL------------- -->
+<ng-template #content let-modal >
+  <div></div>
+    <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+        <span aria-hidden="true">&times;</span>
+    </div>
+    <div class="modal-body d-flex justify-content-evenly">  
+        <div class="card-body">
+            <h1 class="card-title">your order has successfully registered </h1>
+            <button type="button" class="btn btn-outline-success" (click)="exportToExcel()">click here for invoice</button>
+        </div>
+    </div>
+</ng-template> 
+<h1 class="container-fluid col-12 d-flex justify-content-evenly" *ngIf="this.usersService.userId==0">
+    Sorry you need to log in to order products!
+</h1>
+   <!--  for invoice - invisible -->
+    <div class="invisible" #invoice>
+        <table class="table col mb-4" *ngIf="this.usersService.user!=undefined">
+            <thead>
+              <tr>
+                <th scope="col">Order details:</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr>
+                <td class="align-items-center pt-4">Name:</td>  
+                <td class="align-items-center pt-4">{{this.usersService.user[0].firstName}}</td>  
+                <td class="align-items-center pt-4">{{this.usersService.user[0].lastName}}</td>  
+              </tr>
+              <tr>
+                <td class="align-items-center pt-4">Order address:</td>  
+                <td class="align-items-center pt-4">{{this.order.street}}</td>  
+                <td class="align-items-center pt-4">{{this.order.city}}</td>  
+              </tr>
+              <tr>
+                <td class="align-items-center pt-4">Delivery date:</td>  
+                <td class="align-items-center pt-4">{{this.order.deliveryDate}}</td>  
+              </tr>
+              <tr>
+                <td class="align-items-center pt-4"></td>  
+              </tr>
+              <tr>
+                <td class="align-items-center pt-4">products:</td>  
+              </tr>
+            
+            </tbody>
+        </table>
+        <table class="table col mb-4">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price in USD</th>
+                <th scope="col">Quantity</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr *ngFor="let product of this.cartService.filterProducts">
+                <td class="align-items-center pt-4">{{product.product.name}}</td>
+                <td class="align-items-center pt-4">{{product.price*product.quantity}}$</td>
+                <td class="align-items-center pt-4">{{product.quantity}}</td>
+              </tr>
+              <tr>
+                <td class="align-items-center pt-4"> </td>  
+              </tr> 
+              <tr>
+                <td class="align-items-center pt-4">Total price :</td>
+                <td class="align-items-center pt-4">{{this.cartService.totalOrder}} $</td>
+              </tr>
+            </tbody>
+        </table>
+     </div >
+  
+ 
+  
+
+   

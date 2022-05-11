@@ -1,0 +1,32 @@
+<div class="container m-2">
+    <div class="d-flex justify-content-center">
+        <img id="shopOnlineImg" src="https://thumbor.thedailymeal.com/w0tpcPdEwGnFTE-7-Q5eEo3BGQs=//https://www.thedailymeal.com/sites/default/files/story/2016/supermarketcart.JPG"/>
+    </div>
+    <hr>
+   <p>Available products in our store: {{this.products}}</p>
+   <hr>
+   <p>Number of orders submitted in our store: {{this.ordersNum}}</p>
+   <hr>
+    <div class="notificationInfoContainer" *ngIf="usersService.userLogged">
+
+        <div *ngIf="usersService.role ==false||usersService.role==undefined" class="notificationBlock" >
+            <div *ngIf="this.cartService.cartIdOpen>0">
+                You have open cart from date: <span>{{this.cartService.dateOpenCart}}</span>
+            </div>
+            <div *ngIf="this.ordersService.allOrders!=null && this.cartService.cartIdOpen==undefined ">
+                Your last purchase was on: <span> {{this.ordersService.allOrders.orderDate}}</span>
+            </div>
+            <div *ngIf="this.ordersService.allOrders==null && this.cartService.cartIdOpen==undefined" >
+                Welcome to your first purchase!
+            </div>
+            <br><br><br>
+            <button *ngIf="this.cartService.cartProducts!=null" type="button" class="btn btn-primary"  routerLink="/shopping">Continue shopping</button>
+            <button *ngIf="this.cartService.cartProducts==''||this.cartService.cartProducts==null" type="button" class="btn btn-primary"  routerLink="/shopping">Start shopping</button>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button *ngIf="usersService.role == true" type="button" class="btn btn-primary d-flex justify-content-end" routerLink="/shopping">To store</button>
+        </div>
+        
+        <br>
+    </div>
+</div>

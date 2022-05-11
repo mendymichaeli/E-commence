@@ -1,0 +1,19 @@
+<div class="m-1 row" *ngIf="this.usersService.userId>0">
+    <div [ngClass]="{'col-2 closeMode':isCollapsed,'col justify-content-evenly openMode':!isCollapsed}" class="trans">
+        <button type="button" class="col btn btn-outline-dark" (click)="collapse.toggle()" 
+            [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+            <a *ngIf="!isCollapsed">Hide Sidebar</a>  
+            <a *ngIf="isCollapsed">Show Sidebar</a>  
+            </button>
+        <div  #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+            <app-add-and-edit *ngIf="this.usersService.role"></app-add-and-edit>
+            <app-cart *ngIf="!this.usersService.role"></app-cart>
+        </div>  
+    </div>   
+    <div class="col">
+        <app-products></app-products>   
+    </div>
+</div>
+<h1 class="container-fluid col-12 d-flex justify-content-evenly" *ngIf="this.usersService.userId==0">
+    Sorry you need to log in to start shopping!
+</h1>

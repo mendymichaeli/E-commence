@@ -1,0 +1,14 @@
+.trans{
+    margin-top:20px;
+    transition:  0.3s ease-in-out;
+   
+     
+}
+.closeMode{
+    height: 20px;
+}
+.openMode{
+    min-width: 485px;  
+    max-width: 500px;  
+    min-height: 500px;
+}

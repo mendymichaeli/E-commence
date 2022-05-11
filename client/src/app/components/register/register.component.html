@@ -1,0 +1,93 @@
+<!-- STEP 1 -REGISTER -->
+
+<div class="register1" *ngIf="currentDiv=='register1' && this.usersService.userLogged==undefined">
+    <h5 class="m-2">Register - step 1</h5>
+    <div class="mb-3">
+      <label class="form-label">ID Number:</label>
+      <input type="text" class="form-control" [(ngModel)]="user.personalId" (ngModelChange)="validationService.validateId(user.personalId)">
+      <small *ngIf="validationService.idCurrect==false" class="alert text-danger">ID invalid</small>
+      <small *ngIf="validationService.isError.personalId != ''" class="alert text-danger">{{validationService.isError.personalId}}</small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email address:</label>
+      <input type="text" class="form-control" [(ngModel)]="user.email" (ngModelChange)="validationService.checkEmail(user.email)">
+      <small *ngIf="validationService.isError.email != ''" class="alert text-danger">{{validationService.isError.email}}</small>
+      <small *ngIf="validationService.emailCurrect==false" class="alert text-danger">invalid Email</small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password:</label>
+      <input type="text" class="form-control" [(ngModel)]="user.password">
+      <small *ngIf="validationService.isError.password != ''" class="alert text-danger">{{validationService.isError.password}}</small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Confirm Password:</label>
+      <input type="text" class="form-control" [(ngModel)]="validationService.confirmPassword">
+      <small *ngIf="validationService.isError.confirmPassword != ''" class="alert text-danger">{{validationService.isError.confirmPassword}}</small>
+    </div>
+    <button type="button" class="btn btn-outline-dark mb-2" (click)="changeCurrentDiv('register2','level1')">Continue</button>
+    <br>
+    <p >registered already? click here to <a style="text-decoration: underline; cursor: pointer;" (click)="changeCurrentDiv('login')">Login</a></p>
+  </div>
+
+
+<!-- STEP 2 -REGISTER -->
+
+<div class="register2" *ngIf="currentDiv=='register2'  && this.usersService.userLogged==undefined">
+    <h5 class="m-2">Register - step 2</h5>
+    <div class="mb-3">
+      <label class="form-label">City:</label>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="user.city">
+        <option  value=''>Choose city</option>
+        <option *ngFor="let city of this.orderService.cities" value="{{city.name}}">{{city.name}}</option>
+      </select>
+      <small *ngIf="validationService.isError.city != ''" class="alert text-danger">{{validationService.isError.city}}</small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Street:</label>
+      <input type="text" class="form-control" [(ngModel)]="user.street">
+      <small *ngIf="validationService.isError.street != ''" class="alert text-danger">{{validationService.isError.street}}</small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">First Name:</label>
+      <input type="text" class="form-control" [(ngModel)]="user.firstName">
+      <small *ngIf="validationService.isError.firstName != ''" class="alert text-danger">{{validationService.isError.firstName}}</small>
+    </div>
+    <div class="mb-3">
+      <label  class="form-label">Last Name:</label>
+      <input type="text" class="form-control" [(ngModel)]="user.lastName">
+      <small *ngIf="validationService.isError.lastName != ''" class="alert text-danger">{{validationService.isError.lastName}}</small>
+    </div>
+    
+    <button type="button" class="btn btn-outline-dark mb-2" (click)="changeCurrentDiv('register2','level2')">Register</button>
+    <br>
+    <a class="btn" (click)="changeCurrentDiv('register1',0)" style="text-decoration: underline;">start over</a>
+
+  </div>
+
+
+<!-- LOGIN -->
+
+<div class="login" *ngIf="currentDiv=='login'">
+    <h5 class="m-2">Login</h5>
+    <div class="mb-3">
+      <label class="form-label">Email:</label>
+      <input type="text" class="form-control" [(ngModel)]="loginUser.email" (ngModelChange)="validationService.checkEmail(loginUser.email)">
+      <small *ngIf="validationService.isError.logginEmail != ''" class="alert text-danger">{{validationService.isError.logginEmail}}</small>
+      <small *ngIf="validationService.emailCurrect==false" class="alert text-danger">invalid Email</small>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password:</label>
+      <input type="text" class="form-control" [(ngModel)]="loginUser.password">
+      <small *ngIf="validationService.isError.logginPassword != ''" class="alert text-danger">{{validationService.isError.logginPassword}}</small>
+    </div>
+    <button type="button" class="btn btn-outline-dark mb-2" (click)="login('userLogged')" >Login</button>
+  <!--   -->
+    <br>
+    <p >don't have account? click here to <a class="btn" (click)="changeCurrentDiv('register1',0)" style="text-decoration: underline;">Register</a></p>
+  </div>
+
+  <div *ngIf="this.usersService.userLogged==true" class="m-5">
+    <h1>
+      hi! youre logged in!!!!
+    </h1>
+  </div>

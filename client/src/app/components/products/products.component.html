@@ -1,0 +1,76 @@
+<div class="d-block main">
+  <div class="my-nav bg-light">
+    <!-- search -->
+    <nav class="navbar navbar-light">
+      <div class="container-fluid  col-3 d-flex justify-content-evenly">
+        <input class="form-control me-2" type="text" placeholder="Search" [(ngModel)]="search"
+          (ngModelChange)="this.productsService.searchProduct(search)">
+      </div>
+    </nav>
+    <!-- navbar -->
+    <div class="row mt-2 ">
+      <ul class="nav nav-tabs col">
+        <li class="nav-item offset-1">
+          <a class="btn allBtnCategory btn-dark mb-1" (click)="this.productsService.getAllProducts()">All Categories</a>
+        </li>
+      </ul>
+      <ul class="nav nav-tabs col-10">
+        <h1 class="p-1 dispaly-3">Categories: </h1>
+        <li *ngFor="let category of this.productsService.categories" class="nav-item p-1">
+          <a class=" mr-1 btn btn-outline-dark d-block"
+            (click)="getProductsByCategoryId(category.id)">{{category.category}}</a>
+          <!-- [ngClass]="{'nav-link active ':category.id=currentCategoryId,'nav-link':category.id!=currentCategoryId}" -->
+        </li>
+      </ul>
+    </div>
+  </div>
+ 
+  <div class="m-2 products">
+    <!-- products cards----- -->
+    <div class="row d-flex justify-content-evenly ">
+      <div class="card m-2 col p-1 myCards btn-outline-dark" style="width: 10rem;" (click)="open(content,product)"
+        *ngFor="let product of this.productsService.filterProducts">
+        <img src="http://localhost:5000/{{product.image}}" class="card-img-top" alt="">
+        <div class="card-body">
+          <h2 class="card-title">{{product.name}}</h2>
+          <p class="card-text">{{product.price}}$</p>
+          <p class="card-text">Category : {{product.category.category}}</p>
+        </div>
+      </div>
+    </div>
+    <!-- MODAL----- -->
+    <div>
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">choose quantity</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body d-flex justify-content-evenly">
+          <div class="card" style="width: 18rem;">
+            <img src="http://localhost:5000/{{this.selectedProduct.image}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h2 class="card-title"> {{this.selectedProduct.name}}</h2>
+              <p class="card-text">Category : {{this.selectedProduct.category.category}}</p>
+              <p class="card-text">{{this.selectedProduct.price}}$</p>
+              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn btn-danger"
+                  (click)="this.updateQuantityById(this.selectedProduct,0)">-</button>
+                <input class="col-4 text-center" type="text" placeholder={{this.cartService.quntityOfSelected}}
+                  readonly>
+                <button type="button" class="btn btn-success"
+                  (click)="this.updateQuantityById(this.selectedProduct,1)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+
+</div>

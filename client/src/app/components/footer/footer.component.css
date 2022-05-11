@@ -1,0 +1,12 @@
+p{
+    text-align: center;
+    color: beige;
+}
+    
+.footer{
+    position:fixed;
+    bottom:0;
+    width: 100%;
+  
+    background-color:#434c55  
+}
